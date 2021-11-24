@@ -1,7 +1,7 @@
 {
-  "name": "GinkoBus",
-  "short_name": "GinkoBus",
-  "description": "A -18 version of Ginko app",
+  "name": "Quand passe le 9 ?",
+  "short_name": "Ligne 9",
+  "description": "Pour savoir quand passe le 9 .",
   "icons": [
     {
       "src": "icons/icon-32.png",
@@ -44,7 +44,7 @@
       "type": "image/png"
     },
     {
-      "src" : "icons/maskable_icon.png",
+      "src": "icons/maskable_icon.png",
       "sizes": "274x274",
       "purpose": "maskable",
       "type": "image/png"
@@ -52,6 +52,6 @@
   ],
   "start_url": "index.html",
   "display": "fullscreen",
-  "theme_color": "#FF0000",
-  "background_color": "#00FF00"
+  "theme_color": "#FFFFFF",
+  "background_color": "#00abc4"
 }
