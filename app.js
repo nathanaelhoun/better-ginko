@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", async function (_e) {
   const url =
     "https://api.ginko.voyage/TR/getTempsLieu.do?idArret=CEPARGN2&nb=3";
 
-  try {
+  const getTimes = async () => {
     const response = await fetch(
       "https://api.ginko.voyage/TR/getTempsLieu.do?idArret=CEPARGN2&nb=3"
     );
@@ -25,6 +25,10 @@ document.addEventListener("DOMContentLoaded", async function (_e) {
     document.getElementById("others").innerHTML = times
       .map((time) => `<li>${time}</li>`)
       .join("");
+  };
+
+  try {
+    setInterval(getTimes, 500);
   } catch (e) {
     document.getElementById("error").innerText = "T'as pas de réseau bolosse";
   }
