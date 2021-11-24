@@ -22,20 +22,31 @@ self.addEventListener("install", (e) => {
   e.waitUntil(
     (async () => {
       const cache = await caches.open(cacheName);
-      console.log("[Service Worker] Caching all: app shell and content");
+      console.log("[Service Worker] Caching all initial content");
       await cache.addAll(contentToCache);
     })()
   );
 });
 
+const cachedFileExtensions = ["html", "css", "ico", "png", "json"];
+
 self.addEventListener("fetch", (e) => {
   e.respondWith(
     (async () => {
-      const res = await caches.match(e.request);
+      /** @type {FetchEvent} e */
       console.log(`[Service Worker] Fetching resource: ${e.request.url}`);
-      if (res) {
-        return res;
+      const ext = e.request.url.split(".").pop();
+
+      if (cachedFileExtensions.includes(ext)) {
+        const res = await caches.match(e.request);
+        if (res) {
+          console.log("[Service Worker] Found in cache !");
+          return res;
+        }
       }
+
+      console.log("[Service Worker] Request server !");
+
       const response = await fetch(e.request);
       const cache = await caches.open(cacheName);
       console.log(`[Service Worker] Caching new resource: ${e.request.url}`);
