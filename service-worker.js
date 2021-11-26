@@ -17,12 +17,12 @@ const contentToCache = [
 ];
 
 self.addEventListener("install", (e) => {
-  console.log("[Service Worker] Install");
+  console.log("[SW] Install");
 
   e.waitUntil(
     (async () => {
       const cache = await caches.open(cacheName);
-      console.log("[Service Worker] Caching all initial content");
+      console.log("[SW] Caching all initial content");
       await cache.addAll(contentToCache);
     })()
   );
@@ -34,22 +34,22 @@ self.addEventListener("fetch", (e) => {
   e.respondWith(
     (async () => {
       /** @type {FetchEvent} e */
-      console.log(`[Service Worker] Fetching resource: ${e.request.url}`);
+      console.log(`[SW] Fetching resource: ${e.request.url}`);
       const ext = e.request.url.split(".").pop();
 
       if (cachedFileExtensions.includes(ext)) {
         const res = await caches.match(e.request);
         if (res) {
-          console.log("[Service Worker] Found in cache !");
+          console.log("[SW] Found in cache !");
           return res;
         }
       }
 
-      console.log("[Service Worker] Request server !");
+      console.log("[SW] Request server !");
 
       const response = await fetch(e.request);
       const cache = await caches.open(cacheName);
-      console.log(`[Service Worker] Caching new resource: ${e.request.url}`);
+      console.log(`[SW] Caching new resource: ${e.request.url}`);
       await cache.put(e.request, response.clone());
       return response;
     })()

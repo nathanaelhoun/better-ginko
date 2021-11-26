@@ -20,6 +20,11 @@ document.addEventListener("DOMContentLoaded", async function (_e) {
     /** @type {string[]} times */
     const times = body.objets.listeTemps.map((o) => o.temps);
 
+    if (times.length === 0) {
+      document.getElementById("next").innerText = "Plus de bus aujourd'hui...";
+      return;
+    }
+
     document.getElementById("next").innerText = times.shift();
 
     document.getElementById("others").innerHTML = times
@@ -27,9 +32,11 @@ document.addEventListener("DOMContentLoaded", async function (_e) {
       .join("");
   };
 
-  try {
-    setInterval(getTimes, 500);
-  } catch (e) {
-    document.getElementById("error").innerText = "T'as pas de réseau bolosse";
-  }
+  setInterval(() => {
+    try {
+      getTimes();
+    } catch (e) {
+      document.getElementById("error").innerText = "T'as pas de réseau bolosse";
+    }
+  }, 500);
 });
