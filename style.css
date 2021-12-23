@@ -1,6 +1,6 @@
 /* http://meyerweb.com/eric/tools/css/reset/ 
-   v2.0 | 20110126
-   License: none (public domain)
+	 v2.0 | 20110126
+	 License: none (public domain)
 */
 
 html,
@@ -84,12 +84,12 @@ time,
 mark,
 audio,
 video {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font-size: 100%;
-  font: inherit;
-  vertical-align: baseline;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
 }
 /* HTML5 display-role reset for older browsers */
 article,
@@ -103,29 +103,29 @@ hgroup,
 menu,
 nav,
 section {
-  display: block;
+	display: block;
 }
 body {
-  line-height: 1;
+	line-height: 1;
 }
 ol,
 ul {
-  list-style: none;
+	list-style: none;
 }
 blockquote,
 q {
-  quotes: none;
+	quotes: none;
 }
 blockquote:before,
 blockquote:after,
 q:before,
 q:after {
-  content: "";
-  content: none;
+	content: "";
+	content: none;
 }
 table {
-  border-collapse: collapse;
-  border-spacing: 0;
+	border-collapse: collapse;
+	border-spacing: 0;
 }
 
 /*body {*/
@@ -133,30 +133,30 @@ table {
 /*}*/
 
 body {
-  background-color: #00abc4;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-content: center;
-  align-items: center;
-  width: 100vw;
-  height: 99vh;
-  color: white;
-  font-family: "Roboto", serif;
+	background-color: #00abc4;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-content: center;
+	align-items: center;
+	width: 100vw;
+	height: 99vh;
+	color: white;
+	font-family: "Roboto", serif;
 }
 
 h1 {
-  font-size: 30px;
-  margin: 10px;
+	font-size: 30px;
+	margin: 10px;
 }
 
 h2 {
-  font-size: 40px;
-  margin-top: 50px;
-  font-weight: bold;
+	font-size: 40px;
+	margin-top: 50px;
+	font-weight: bold;
 }
 
 li {
-  font-size: 20px;
-  margin: 10px 0;
+	font-size: 20px;
+	margin: 10px 0;
 }

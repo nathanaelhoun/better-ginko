@@ -1,57 +1,57 @@
 {
-  "name": "Quand passe le 9 ?",
-  "short_name": "Ligne 9",
-  "description": "Pour savoir quand passe le 9 .",
-  "icons": [
-    {
-      "src": "icons/icon-32.png",
-      "sizes": "32x32",
-      "type": "image/png"
-    },
-    {
-      "src": "icons/icon-64.png",
-      "sizes": "64x64",
-      "type": "image/png"
-    },
-    {
-      "src": "icons/icon-128.png",
-      "sizes": "128x128",
-      "type": "image/png"
-    },
-    {
-      "src": "icons/icon-168.png",
-      "sizes": "168x168",
-      "type": "image/png"
-    },
-    {
-      "src": "icons/icon-180.png",
-      "sizes": "180x180",
-      "type": "image/png"
-    },
-    {
-      "src": "icons/icon-192.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "icons/icon-256.png",
-      "sizes": "256x256",
-      "type": "image/png"
-    },
-    {
-      "src": "icons/icon-512.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    },
-    {
-      "src": "icons/maskable_icon.png",
-      "sizes": "274x274",
-      "purpose": "maskable",
-      "type": "image/png"
-    }
-  ],
-  "start_url": "index.html",
-  "display": "fullscreen",
-  "theme_color": "#FFFFFF",
-  "background_color": "#00abc4"
+	"name": "Quand passe le 9 ?",
+	"short_name": "Ligne 9",
+	"description": "Pour savoir quand passe le 9 .",
+	"icons": [
+		{
+			"src": "icons/icon-32.png",
+			"sizes": "32x32",
+			"type": "image/png"
+		},
+		{
+			"src": "icons/icon-64.png",
+			"sizes": "64x64",
+			"type": "image/png"
+		},
+		{
+			"src": "icons/icon-128.png",
+			"sizes": "128x128",
+			"type": "image/png"
+		},
+		{
+			"src": "icons/icon-168.png",
+			"sizes": "168x168",
+			"type": "image/png"
+		},
+		{
+			"src": "icons/icon-180.png",
+			"sizes": "180x180",
+			"type": "image/png"
+		},
+		{
+			"src": "icons/icon-192.png",
+			"sizes": "192x192",
+			"type": "image/png"
+		},
+		{
+			"src": "icons/icon-256.png",
+			"sizes": "256x256",
+			"type": "image/png"
+		},
+		{
+			"src": "icons/icon-512.png",
+			"sizes": "512x512",
+			"type": "image/png"
+		},
+		{
+			"src": "icons/maskable_icon.png",
+			"sizes": "274x274",
+			"purpose": "maskable",
+			"type": "image/png"
+		}
+	],
+	"start_url": "index.html",
+	"display": "fullscreen",
+	"theme_color": "#FFFFFF",
+	"background_color": "#00abc4"
 }
