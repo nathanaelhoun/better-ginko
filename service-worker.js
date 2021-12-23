@@ -40,12 +40,12 @@ self.addEventListener("fetch", (e) => {
 			if (cachedFileExtensions.includes(ext)) {
 				const res = await caches.match(e.request);
 				if (res) {
-					console.log("[SW] Found in cache !");
+					console.log("[SW] Found in cache!");
 					return res;
 				}
 			}
 
-			console.log("[SW] Request server !");
+			console.log("[SW] Request server!");
 
 			const response = await fetch(e.request);
 			const cache = await caches.open(cacheName);

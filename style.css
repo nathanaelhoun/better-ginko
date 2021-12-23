@@ -1,32 +1,40 @@
-body {
+:root {
 	background-color: #00abc4;
-	margin: 0;
-	padding: 0;
+	color: white;
 
+	font-family: "Roboto", serif;
+	font-size: 20px;
+	text-align: center;
+}
+
+body {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 
+	margin: 0;
+	padding: 0;
 	width: 100vw;
 	height: 100vh;
-	color: white;
-	font-family: "Roboto", serif;
-}
-
-* {
-	text-align: center;
 }
 
 h1 {
-	font-size: 30px;
-	margin: 10px;
+	font-size: 1.5rem;
+	margin: 1rem;
 }
 
-h2 {
-	font-size: 40px;
-	margin-top: 50px;
-	font-weight: bold;
+#bus-destination {
+	font-size: 0.8rem;
+	font-weight: normal;
+}
+
+#bus-destination::before {
+	content: "(vers 	";
+}
+
+#bus-destination::after {
+	content: ")";
 }
 
 ul {
@@ -36,11 +44,12 @@ ul {
 }
 
 li {
-	font-size: 20px;
+	font-size: 1rem;
 	margin: 10px 0;
 }
 
 li:first-of-type {
-	font-size: 40px;
+	font-size: 2rem;
+	margin-top: 2rem;
 	font-weight: bold;
 }
