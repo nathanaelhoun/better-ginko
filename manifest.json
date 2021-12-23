@@ -1,7 +1,7 @@
 {
-	"name": "Quand passe le 9 ?",
-	"short_name": "Ligne 9",
-	"description": "Pour savoir quand passe le 9 .",
+	"name": "Quand passe le 3 ?",
+	"short_name": "Ligne 3",
+	"description": "Pour savoir quand passe le bus 3 à mes arrêts Ginko.",
 	"icons": [
 		{
 			"src": "icons/icon-32.png",

@@ -1,42 +1,40 @@
 "use strict";
 
-document.addEventListener("DOMContentLoaded", async function (_e) {
-	document.onresize = () => {
-		document.body.style.height = window.innerHeight + "px";
+document.addEventListener("DOMContentLoaded", async function () {
+	/** @returns {string[]} times */
+	async function getTimesForLine(busStopId, busLine, destination) {
+		const response = await fetch(`https://api.ginko.voyage/TR/getTempsLieu.do?idArret=${busStopId}&nb=3`);
+		const body = await response.json();
+		const times = body.objets.listeTemps
+			.filter((o) => o.destination == destination)
+			.filter((o) => o.numLignePublic = busLine)
+			.map((o) => o.temps);
+		return times;
 	};
 
-	document.onresize(null);
+	function putResult(busStop, busLine, times) {
+		document.getElementById("bus-line").innerText = busLine;
+		document.getElementById("bus-stop").innerText = busStop;
 
-	const url =
-		"https://api.ginko.voyage/TR/getTempsLieu.do?idArret=CEPARGN2&nb=3";
-
-	const getTimes = async () => {
-		const response = await fetch(
-			"https://api.ginko.voyage/TR/getTempsLieu.do?idArret=CEPARGN2&nb=3"
-		);
-
-		const body = await response.json();
-
-		/** @type {string[]} times */
-		const times = body.objets.listeTemps.map((o) => o.temps);
-
-		if (times.length === 0) {
-			document.getElementById("next").innerText = "Plus de bus aujourd'hui...";
+		if (!times) {
+			document.getElementById("times").innerText = "Plus de bus aujourd'hui...";
 			return;
 		}
 
-		document.getElementById("next").innerText = times.shift();
-
-		document.getElementById("others").innerHTML = times
+		document.getElementById("times").innerHTML = times
 			.map((time) => `<li>${time}</li>`)
 			.join("");
-	};
+	}
 
-	setInterval(() => {
-		try {
-			getTimes();
-		} catch (e) {
-			document.getElementById("error").innerText = "T'as pas de réseau bolosse";
-		}
-	}, 500);
+	try {
+		const times = await getTimesForLine("ISENBAR1", "L3", "Pôle Temis");
+		putResult("Isenbart", "3", times);
+		setInterval(async () => {
+			const times = await getTimesForLine("ISENBAR1", "L3", "Pôle Temis");
+			putResult("Isenbart", "3", times);
+		}, 10000);
+	} catch (e) {
+		console.error(e);
+		document.getElementById("error").innerHTML = `<p>T'as pas de réseau bolosse</p><pre>${e}</pre>`;
+	}
 });
