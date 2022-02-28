@@ -2,11 +2,13 @@
 
 /**
  * @typedef {Object} configItem
- * @property {int}      beginTime    - When the config should start to be active
- * @property {int}      endTime      - When the config should stop to be active
- * @property {string}   stop         - Bus stop where to check the buses
- * @property {string[]} destinations - Possible destinations for the bus
- * @property {string[]} test - Possible destinations for the bus
+ * @property {int}      beginTime                  - When the config should start to be active
+ * @property {int}      endTime                    - When the config should stop to be active
+ * @property {string}   stop                       - Bus stop where to check the buses
+ * @property {Object}   destination                - Possible destinations for the bus
+ * @property {string}   destination.numLignePublic - Number as sent from the API
+ * @property {boolean}  destination.sensAller      - Direction as sent from the API
+ * @property {string}   destination.label          - Name as shown in the UI
  */
 
 /**
@@ -15,15 +17,15 @@
 const config = [
 	{
 		"beginTime": 0,
-		"endTime": 24,
+		"endTime": 12,
 		"stop": "Crous-Université",
-		"destinations": ["Centre-ville - 8 Septembre", "République"],
+		"destination": { numLignePublic: "L3", sensAller: true, label: "Centre - Ville" },
 	},
 	{
-		"beginTime": 0,
+		"beginTime": 12,
 		"endTime": 24,
 		"stop": "Isenbart",
-		"destinations": ["Pôle Temis", "Crous-Université"],
+		"destination": { numLignePublic: "L3", sensAller: false, label: "Temis" },
 	},
 ];
 
@@ -48,17 +50,17 @@ document.addEventListener("DOMContentLoaded", async function () {
 	/**
 	 * @param {string}   busStop 
 	 * @param {string}   busLine 
-	 * @param {string[]} busDestinations 
+	 * @param {object}   busDestination
 	 * @returns {Promise<string[]>} 
 	 */
-	async function getTimesForLine(busStop, busLine, busDestinations) {
+	async function getTimesForLine(busStop, busDestination) {
 		const response = await fetch(`https://api.ginko.voyage/TR/getTempsLieu.do?nom=${busStop}&nb=3`);
 
 		const body = await response.json();
 
 		const times = body.objets.listeTemps
-			.filter((o) => o.numLignePublic === busLine)
-			.filter((o) => busDestinations.includes(o.destination))
+			.filter((o) => busDestination.numLignePublic == o.numLignePublic)
+			.filter((o) => busDestination.sensAller == o.sensAller)
 			.map((o) => o.temps);
 		return times;
 	};
@@ -68,14 +70,14 @@ document.addEventListener("DOMContentLoaded", async function () {
 	 * 
 	 * @param {string}   busStop 
 	 * @param {string}   busLine 
-	 * @param {string[]} busDestinations
+	 * @param {Object[]} busDestination
 	 * @param {string[]} times 
 	 * @returns 
 	 */
-	function putResult(busStop, busLine, busDestinations, times) {
-		document.getElementById("bus-line").innerText = busLine;
+	function putResult(busStop, busDestination, times) {
+		document.getElementById("bus-line").innerText = busDestination.numLignePublic;
 		document.getElementById("bus-stop").innerText = busStop;
-		document.getElementById("bus-destination").innerText = busDestinations.join(' ou ');
+		document.getElementById("bus-destination").innerText = busDestination.label;
 
 		if (!times) {
 			document.getElementById("times").innerText = "Plus de bus aujourd'hui...";
@@ -89,8 +91,8 @@ document.addEventListener("DOMContentLoaded", async function () {
 
 	async function findAndShowResults() {
 		const conf = getConfigFromTime();
-		const times = await getTimesForLine(conf.stop, "L3", conf.destinations);
-		putResult(conf.stop, "3", conf.destinations, times);
+		const times = await getTimesForLine(conf.stop, conf.destination);
+		putResult(conf.stop, conf.destination, times);
 	};
 
 	try {
