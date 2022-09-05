@@ -16,27 +16,30 @@
  */
 const config = [
 	{
-		"beginTime": 0,
-		"endTime": 12,
-		"stop": "Crous-Université",
-		"destination": { numLignePublic: "L3", sensAller: true, label: "Centre - Ville" },
+		beginTime: 0,
+		endTime: 12,
+		stop: "Isenbart",
+		destination: { numLignePublic: "L3", sensAller: false, label: "Temis" },
 	},
 	{
-		"beginTime": 12,
-		"endTime": 24,
-		"stop": "Isenbart",
-		"destination": { numLignePublic: "L3", sensAller: false, label: "Temis" },
+		beginTime: 12,
+		endTime: 24,
+		stop: "Crous-Université",
+		destination: {
+			numLignePublic: "L3",
+			sensAller: true,
+			label: "Centre - Ville",
+		},
 	},
 ];
 
 document.addEventListener("DOMContentLoaded", async function () {
-
 	/**
 	 * @returns {configItem}
 	 */
 	function getConfigFromTime() {
 		const today = new Date();
-		const now = today.getHours() + (today.getMinutes() / 100);
+		const now = today.getHours() + today.getMinutes() / 100;
 
 		for (const conf of config) {
 			if (conf.beginTime <= now && now < conf.endTime) {
@@ -48,13 +51,15 @@ document.addEventListener("DOMContentLoaded", async function () {
 	}
 
 	/**
-	 * @param {string}   busStop 
-	 * @param {string}   busLine 
+	 * @param {string}   busStop
+	 * @param {string}   busLine
 	 * @param {object}   busDestination
-	 * @returns {Promise<string[]>} 
+	 * @returns {Promise<string[]>}
 	 */
 	async function getTimesForLine(busStop, busDestination) {
-		const response = await fetch(`https://api.ginko.voyage/TR/getTempsLieu.do?nom=${busStop}&nb=3`);
+		const response = await fetch(
+			`https://api.ginko.voyage/TR/getTempsLieu.do?nom=${busStop}&nb=3`
+		);
 
 		const body = await response.json();
 
@@ -63,19 +68,20 @@ document.addEventListener("DOMContentLoaded", async function () {
 			.filter((o) => busDestination.sensAller == o.sensAller)
 			.map((o) => o.temps);
 		return times;
-	};
+	}
 
-	/** Fills the dom */
 	/**
-	 * 
-	 * @param {string}   busStop 
-	 * @param {string}   busLine 
+	 * Fills the DOM
+	 *
+	 * @param {string}   busStop
+	 * @param {string}   busLine
 	 * @param {Object[]} busDestination
-	 * @param {string[]} times 
-	 * @returns 
+	 * @param {string[]} times
+	 * @returns
 	 */
 	function putResult(busStop, busDestination, times) {
-		document.getElementById("bus-line").innerText = busDestination.numLignePublic;
+		document.getElementById("bus-line").innerText =
+			busDestination.numLignePublic;
 		document.getElementById("bus-stop").innerText = busStop;
 		document.getElementById("bus-destination").innerText = busDestination.label;
 
@@ -93,13 +99,21 @@ document.addEventListener("DOMContentLoaded", async function () {
 		const conf = getConfigFromTime();
 		const times = await getTimesForLine(conf.stop, conf.destination);
 		putResult(conf.stop, conf.destination, times);
-	};
+	}
 
 	try {
 		await findAndShowResults();
-		setInterval(findAndShowResults, 10000);
+		setInterval(findAndShowResults, 60 * 1000);
 	} catch (e) {
 		console.error(e);
-		document.getElementById("error").innerHTML = `<p>T'as pas de réseau bolosse</p><pre>${e}</pre>`;
+
+		const errorDiv = document.getElementById("error");
+
+		if (e.message.includes("NetworkError")) {
+			errorDiv.innerHTML = `<p>T’as pas de réseau bolosse</p><pre>${e}</pre>`;
+			return;
+		}
+
+		errorDiv.innerHTML = `<p>Erreur dans le JavaScript, dommage</p><pre>${e}</pre>`;
 	}
 });
