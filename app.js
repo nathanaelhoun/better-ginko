@@ -57,8 +57,9 @@ document.addEventListener("DOMContentLoaded", async function () {
 	 * @returns {Promise<string[]>}
 	 */
 	async function getTimesForLine(busStop, busDestination) {
+		// Oui, j’ai mis la clé API ici, parce que je m’en fiche et que j’espère que personne ne lira ce code de toutes façons
 		const response = await fetch(
-			`https://api.ginko.voyage/TR/getTempsLieu.do?nom=${busStop}&nb=3`
+			`https://api.ginko.voyage/TR/getTempsLieu.do?nom=${busStop}&apiKey=lq9qK7DY9EjGC9ooPsP8BVuX5d8z&nb=3`
 		);
 
 		const body = await response.json();
