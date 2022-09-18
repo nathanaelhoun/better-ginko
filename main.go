@@ -20,6 +20,21 @@ var (
 	ui embed.FS
 )
 
+func writeResponse(w http.ResponseWriter, resp *http.Response, err error) {
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	defer resp.Body.Close()
+
+	body, err := io.ReadAll(resp.Body)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	w.Write(body)
+}
+
 func askGinkoApi(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r)
 	busStop := vars["busStop"]
@@ -37,18 +52,14 @@ func askGinkoApi(w http.ResponseWriter, r *http.Request) {
 	base.RawQuery = params.Encode()
 
 	resp, err := http.Get(base.String())
-	if err != nil {
-		log.Fatal(err)
-	}
+	writeResponse(w, resp, err)
+}
 
-	defer resp.Body.Close()
+func askVelociteApi(w http.ResponseWriter, r *http.Request) {
+	base, _ := url.Parse("https://transport.data.gouv.fr/gbfs/besancon/station_status.json")
 
-	body, err := io.ReadAll(resp.Body)
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	w.Write(body)
+	resp, err := http.Get(base.String())
+	writeResponse(w, resp, err)
 }
 
 func main() {
@@ -69,6 +80,8 @@ func main() {
 
 	mux := mux.NewRouter().StrictSlash(false)
 	mux.HandleFunc("/api/v1/ginko/{busStop}", askGinkoApi)
+	mux.HandleFunc("/api/v1/sncf/{departureStation}", askSncfApi)
+	mux.HandleFunc("/api/v1/velocite/", askVelociteApi)
 	mux.PathPrefix("/").Handler(webapp)
 
 	// Create a HTTP server and bind the router to it, and set wanted address

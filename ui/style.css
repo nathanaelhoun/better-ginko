@@ -48,8 +48,19 @@ li {
 	margin: 10px 0;
 }
 
-li:first-of-type {
+#times li:first-of-type {
 	font-size: 2rem;
 	margin-top: 2rem;
 	font-weight: bold;
+}
+
+#bikesStations svg {
+	height: 1em;
+	position: relative;
+	bottom: -2px;
+}
+
+#bikesStations li span {
+	padding: 2px 5px;
+	border-radius: 12px;
 }
